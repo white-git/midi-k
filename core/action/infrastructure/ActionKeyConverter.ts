@@ -26,7 +26,7 @@ export class ActionKeyConverter {
       const replaced = this.replaceForMappings(k)
       // #2 Search for correct values within nut.js
       const value = this.findNutValue(replaced)
-      if (value) return value
+      if (value !== undefined) return value
       return -1
     })
   }
