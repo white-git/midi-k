@@ -2,9 +2,13 @@ import { Key } from '@nut-tree/nut-js/dist/lib/key.enum'
 
 export class ActionKeyConverter {
   private mapping: Indexable = {
+    ',': 'comma',
     '.': 'period',
     ';': 'semicolon',
     '/': 'slash',
+    '\'': 'quote',
+    '[': 'leftbracket',
+    ']': 'rightbracket',
   }
 
   private replaceForMappings(key: string) {

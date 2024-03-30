@@ -6,9 +6,8 @@
   outline: 0;
   border: solid 1px map-get($colors, black);
   transition: box-shadow ease 0.3s;
-  @extend .pl-3;
-  @extend .pr-3;
-  @extend .mb-2;
+  @extend .pl-2;
+  @extend .pr-2;
   @extend .br-1;
   @extend .bg-blue;
   &:hover, &:focus {

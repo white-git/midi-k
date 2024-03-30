@@ -1,11 +1,15 @@
-import { useEffect, FormEventHandler, useRef } from 'react'
+import { useEffect, FormEventHandler, useRef, forwardRef, useImperativeHandle, FormEvent } from 'react'
 import { usePresenter } from '../../hooks/use-presenter'
 import { formdataToObject } from '../../../core/shared/domain/Helpers'
 import { Dependecy, useMidi, useAction } from '../../../core/shared/infrastructure/Dependecy'
 import { MidiObject } from '../../../core/midi/domain/Midi'
 import './Input.scss'
 
-export function Input() {
+export type InputRef = {
+  submit: { (e: FormEvent): void }
+}
+
+export const Input = forwardRef(function Input(props, ref) {
   const midiPresenter = Dependecy.use(useMidi())
   const actionPresenter = Dependecy.use(useAction())
   const midiState = usePresenter(midiPresenter)
@@ -49,6 +53,12 @@ export function Input() {
     return Array.from({ length: 16 }, (_, i) => i + 1)
   }
 
+  useImperativeHandle(ref, () => {
+    return {
+      submit,
+    }
+  }, [midiState.listening])
+
   useEffect(() => {
     midiPresenter.getInputs()
   }, [])
@@ -72,28 +82,26 @@ export function Input() {
     ))
   }
 
-  const buttonDisabled = () => {
-    return !midiState.current.exists()
-  }
-
-  const buttonClasses = () => {
-    return `btn ${buttonDisabled() ? 'btn_disabled' : ''}`
-  }
-
-  const buttonMessage = () => {
-    return midiState.listening ? 'Stop' : 'Start'
-  }
-
   return (
     <div className="input mb-2">
-      <form className="form" ref={$form} onSubmit={submit}>
+      <form id="midi" className="form" ref={$form} onSubmit={submit}>
         <div className="row">
-          <div className="col-9">
+          <div className="col-12">
             <div className="form-e form-s">
               <label htmlFor="device">Device</label>
               <select id="device" name="device" onChange={updateMidi}>
                 <option value={''}>None</option>
                 {devices()}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div className="row align-end">
+          <div className="col-9">
+            <div className="form-e form-s">
+              <label htmlFor="channel">Channel</label>
+              <select id="channel" name="channel" onChange={reset}>
+                {channelOptions()}
               </select>
             </div>
           </div>
@@ -104,26 +112,7 @@ export function Input() {
             </div>
           </div>
         </div>
-        <div className="row align-end">
-          <div className="col-12">
-            <div className="form-e form-s">
-              <label htmlFor="channel">Channel</label>
-              <select id="channel" name="channel" onChange={reset}>
-                {channelOptions()}
-              </select>
-            </div>
-          </div>
-          <div className="col">
-            <button
-              type="submit"
-              className={buttonClasses()}
-              disabled={buttonDisabled()}
-            >
-              {buttonMessage()}
-            </button>
-          </div>
-        </div>
       </form>
     </div>
   )
-}
+})

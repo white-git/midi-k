@@ -36,6 +36,7 @@ export function InputLog() {
 
   return (
     <div className="inputlog br-1">
+      <h3 className="inputLog-title mb-1">Logs</h3>
       <table className="table">
         <thead>
           <tr>

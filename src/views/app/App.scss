@@ -4,7 +4,8 @@
 }
 .app {
   &-input, &-inputlog {
-    height: calc(100vh - var(--gutter-4));
+    margin-top: var(--header-height);
+    height: calc(100vh - var(--gutter-4) - var(--header-height));
     display: flex;
     flex-direction: column;
   }
