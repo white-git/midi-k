@@ -45,7 +45,7 @@ function createWindow() {
   })
 
   // Devtools
-  win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL)
