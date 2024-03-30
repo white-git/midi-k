@@ -1,0 +1,22 @@
+#app {
+  font-family: Courier, monospace;
+  font-size: 14px;
+}
+.app {
+  &-input, &-inputlog {
+    height: calc(100vh - var(--gutter-4));
+    display: flex;
+    flex-direction: column;
+  }
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a {
+  color: var(--color-blue);
+  &:visited {
+    color: var(--color-orange);
+  }
+}

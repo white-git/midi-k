@@ -1,0 +1,16 @@
+.inputlog {
+  flex-grow: 1;
+  overflow: auto;
+  .table tr:nth-child(2n) {
+    background-color: var(--color-blue);
+  }
+  .table tbody tr:hover {
+    cursor: pointer;
+    background-color: var(--color-green);
+  }
+  &-empty {
+    max-width: 80%;
+    margin: auto;
+    text-align: center;
+  }
+}

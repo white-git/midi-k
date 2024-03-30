@@ -1,0 +1,66 @@
+// Root
+:root {
+  @each $name, $color in $colors {
+    --color-#{"" + $name}: #{$color};
+  }
+  @for $i from 1 through $gutter-loop {
+    --gutter-#{$i}: #{$gutter-base * $i}px;
+  }
+}
+
+// Gutter
+@for $i from 1 through $gutter-loop {
+  .g-#{$i} {
+    padding: $gutter-base * $i + px !important;
+  }
+  @each $name, $prop in $margins {
+    .#{$name}-#{$i} {
+      #{$prop}: $gutter-base * $i + px;
+    }
+  }
+  @each $name, $prop in $paddings {
+    .#{$name}-#{$i} {
+      #{$prop}: $gutter-base * $i + px;
+    }
+  }
+}
+
+// Border Radius
+@for $i from 1 through $border-radius-loop {
+  .br-#{$i} {
+    border-radius: $border-radius-base * $i + px;
+  }
+}
+
+// Colors
+@each $name, $color in $colors {
+  .bg-#{"" + $name} {
+    background-color: $color;
+  }
+  .text-#{"" + $name} {
+    color: $color;
+  }
+}
+
+// Grid
+@for $i from 1 through $grid-cols {
+  .col-#{$i} {
+    width: calc($i * 100 / $grid-cols) + 0%;
+    padding: 0 ($gutter-base + px);
+  }
+}
+
+// Flex
+@each $position in $flex-position {
+  .align-#{$position} {
+    align-items: $position;
+  }
+  .justify-#{$position} {
+    justify-content: $position;
+  }
+}
+
+// Shadow
+.shadow {
+  box-shadow: $shadow;
+}

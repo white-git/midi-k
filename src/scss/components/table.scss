@@ -1,0 +1,11 @@
+.table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  th, td {
+    border: solid 1px var(--color-black);
+    text-align: left;
+    @extend .pl-1;
+    @extend .pr-1;
+  }
+}
