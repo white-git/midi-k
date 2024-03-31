@@ -9,7 +9,7 @@ export type InputRef = {
   submit: { (e: FormEvent): void }
 }
 
-export const Input = forwardRef(function Input(props, ref) {
+export const Input = forwardRef(function Input(_, ref) {
   const midiPresenter = Dependecy.use(useMidi())
   const actionPresenter = Dependecy.use(useAction())
   const midiState = usePresenter(midiPresenter)
