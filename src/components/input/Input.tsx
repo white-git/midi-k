@@ -1,23 +1,18 @@
-import { useEffect, FormEventHandler, useRef, forwardRef, useImperativeHandle, FormEvent } from 'react'
+import { useEffect, FormEventHandler, useRef } from 'react'
 import { usePresenter } from '../../hooks/use-presenter'
-import { formdataToObject } from '../../../core/shared/domain/Helpers'
-import { Dependecy, useMidi, useAction } from '../../../core/shared/infrastructure/Dependecy'
+import { formdataToObject } from '../../helpers/formdata'
+import { Dependecy, useMidi } from '../../../core/shared/infrastructure/Dependecy'
 import { MidiObject } from '../../../core/midi/domain/Midi'
 import './Input.scss'
 
-export type InputRef = {
-  submit: { (e: FormEvent): void }
-}
-
-export const Input = forwardRef(function Input(_, ref) {
+export function Input() {
   const midiPresenter = Dependecy.use(useMidi())
-  const actionPresenter = Dependecy.use(useAction())
   const midiState = usePresenter(midiPresenter)
   const $form = useRef<HTMLFormElement>(document.createElement('form'))
 
-  const resetMidi = (value?: string) => {
+  const resetMidi = (clean?: boolean) => {
     const id = midiState.current.device?.id
-    if (id) midiPresenter.stopListening(id, value === '')
+    if (id) midiPresenter.stopListening(id, clean)
   }
 
   const formValues = () => {
@@ -28,36 +23,18 @@ export const Input = forwardRef(function Input(_, ref) {
 
   const updateMidi: FormEventHandler = (e) => {
     const { value } = e.target as HTMLSelectElement
-    resetMidi(value)
+    resetMidi(value === '')
     const data = formValues()
     midiPresenter.createMidi(data)
   }
 
-  const reset = () => {
+  const clear = () => {
     resetMidi()
-  }
-
-  const submit: FormEventHandler = (e) => {
-    e.preventDefault()
-
-    if (!midiState.listening) {
-      const values = formValues()
-      actionPresenter.setDelay(values.delay)
-      midiPresenter.listenInput([e => actionPresenter.sendKey(e)])
-    } else {
-      resetMidi()
-    }
   }
 
   const channels = () => {
     return Array.from({ length: 16 }, (_, i) => i + 1)
   }
-
-  useImperativeHandle(ref, () => {
-    return {
-      submit,
-    }
-  }, [midiState.listening])
 
   useEffect(() => {
     midiPresenter.getInputs()
@@ -84,7 +61,7 @@ export const Input = forwardRef(function Input(_, ref) {
 
   return (
     <div className="input mb-2">
-      <form id="midi" className="form" ref={$form} onSubmit={submit}>
+      <form id="midi" className="form" ref={$form}>
         <div className="row">
           <div className="col-12">
             <div className="form-e form-s">
@@ -100,7 +77,7 @@ export const Input = forwardRef(function Input(_, ref) {
           <div className="col-9">
             <div className="form-e form-s">
               <label htmlFor="channel">Channel</label>
-              <select id="channel" name="channel" onChange={reset}>
+              <select id="channel" name="channel" onChange={clear}>
                 {channelOptions()}
               </select>
             </div>
@@ -115,4 +92,4 @@ export const Input = forwardRef(function Input(_, ref) {
       </form>
     </div>
   )
-})
+}
