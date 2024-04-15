@@ -1,58 +1,73 @@
-import { FormEventHandler } from 'react'
-import { faPlay, faStop, faBook, faFileArrowDown, faFileArrowUp, faRotate } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Dependecy, useMidi, useAction } from '../../../core/shared/infrastructure/Dependecy'
-import { MidiObject } from '../../../core/midi/domain/Midi'
-import { usePresenter } from '../../hooks/use-presenter'
-import { formdataToObject } from '../../helpers/formdata'
+import { FormEventHandler } from 'react';
+import {
+  faPlay,
+  faStop,
+  faBook,
+  faFileArrowDown,
+  faFileArrowUp,
+  faRotate,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { loadPresenter, useMidi, useAction } from '../../../core/common/infrastructure/Locator';
+import { MaybeMidi } from '../../../core/midi/domain/Midi';
+import { usePresenter } from '../../hooks/use-presenter';
+import { formdataToObject } from '../../helpers/formdata';
 
-import './Features.scss'
+import './Features.scss';
 
 export function Features() {
-  const midiPresenter = Dependecy.use(useMidi())
-  const actionPresenter = Dependecy.use(useAction())
-  const midiState = usePresenter(midiPresenter)
+  const midiPresenter = loadPresenter(useMidi());
+  const actionPresenter = loadPresenter(useAction());
+  const midiState = usePresenter(midiPresenter);
 
   const resetMidi = () => {
-    const id = midiState.current.device?.id
-    if (id) midiPresenter.stopListening(id, true)
-  }
+    const id = midiState.current.device?.id;
+    if (id) midiPresenter.stopListening(id, true);
+  };
 
   const formValues = () => {
-    const form = document.querySelector('#midi') as HTMLFormElement
-    const data = new FormData(form)
-    return formdataToObject<MidiObject>(data)
-  }
+    const form = document.querySelector('#midi') as HTMLFormElement;
+    const data = new FormData(form);
+    return formdataToObject<MaybeMidi>(data);
+  };
 
   const submit: FormEventHandler = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!midiState.listening) {
-      const values = formValues()
-      actionPresenter.setDelay(values.delay)
-      midiPresenter.listenInput([e => actionPresenter.sendKey(e)])
+      const values = formValues();
+      actionPresenter.setDelay(values.delay);
+      midiPresenter.listenInput([e => actionPresenter.sendKey(e)]);
     } else {
-      resetMidi()
+      resetMidi();
     }
-  }
+  };
 
   const getInputs = () => {
-    midiPresenter.getInputs()
-  }
+    midiPresenter.getInputs();
+  };
+
+  const saveActions = () => {
+    actionPresenter.saveActions();
+  };
+
+  const loadActions = () => {
+    actionPresenter.loadActions();
+  };
 
   const buttonDisabled = () => {
-    return !midiState.current.exists()
-  }
+    return !midiState.current.exists();
+  };
 
   const buttonClasses = () => {
-    return `btn ${buttonDisabled() ? 'btn_disabled' : ''}`
-  }
+    return `btn ${buttonDisabled() ? 'btn_disabled' : ''}`;
+  };
 
   const buttonMessage = () => {
     return midiState.listening
       ? <FontAwesomeIcon icon={faStop} />
-      : <FontAwesomeIcon icon={faPlay} />
-  }
+      : <FontAwesomeIcon icon={faPlay} />;
+  };
 
   return (
     <div className="features bg-yellow pl-2 pr-2 pt-1 pb-1">
@@ -77,16 +92,16 @@ export function Features() {
           </button>
         </div>
         <div className="col">
-          <button className="btn btn_disabled">
+          <button className="btn" onClick={saveActions}>
             <FontAwesomeIcon icon={faFileArrowUp} />
           </button>
         </div>
         <div className="col">
-          <button className="btn btn_disabled">
+          <button className="btn" onClick={loadActions}>
             <FontAwesomeIcon icon={faFileArrowDown} />
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }

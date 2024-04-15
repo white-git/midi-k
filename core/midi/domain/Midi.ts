@@ -1,32 +1,32 @@
-import { Input, Output, NoteMessageEvent } from 'webmidi'
-import { Model } from '../../shared/domain/Model'
+import { Input, Output, NoteMessageEvent } from 'webmidi';
+import { Model } from '../../common/domain/Model';
 
-export type Device = Input | Output | null
+export type Device = Input | Output | null;
 
-export type MidiObject = {
+export type MaybeMidi = {
   device: string
   channel: number
   delay: number
-}
+};
 
 export class Midi extends Model {
-  public device: Device
-  public channel: number
-  public messages: NoteMessageEvent[]
+  public device: Device;
+  public channel: number;
+  public messages: NoteMessageEvent[] = [];
 
   constructor(device: Device, channel: number) {
-    super()
-    this.device = device
-    this.channel = channel
-    this.messages = []
+    super();
+    this.device = device;
+    this.channel = channel;
+    this.messages = [];
   }
 
   public clearMessages() {
-    this.messages = []
+    this.messages = [];
   }
 
   public exists() {
-    return !!this.device
+    return !!this.device;
   }
 
   public hasMessages() {
@@ -34,10 +34,10 @@ export class Midi extends Model {
   }
 
   public static create(device: Device, channel: number) {
-    return new this(device, channel)
+    return new this(device, channel);
   }
 
   public static empty() {
-    return new this(null, 0)
+    return new this(null, 0);
   }
 }

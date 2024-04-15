@@ -1,8 +1,8 @@
-import { Input } from '../../components/input/Input'
-import { InputLog } from '../../components/input-log/InputLog'
-import { Action } from '../../components/action/Action'
-import { Features } from '../../components/features/Features'
-import './App.scss'
+import { Input } from '../../components/input/Input';
+import { InputLog } from '../../components/input-log/InputLog';
+import { Action } from '../../components/action/Action';
+import { Features } from '../../components/features/Features';
+import './App.scss';
 
 export function App() {
   return (
@@ -24,5 +24,5 @@ export function App() {
         </div>
       </div>
     </div>
-  )
+  );
 }

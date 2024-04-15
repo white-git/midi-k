@@ -1,34 +1,34 @@
-import { FormEventHandler } from 'react'
-import { Dependecy, useAction } from '../../../core/shared/infrastructure/Dependecy'
-import { Action as ActionModel } from '../../../core/action/domain/Action'
-import { usePresenter } from '../../hooks/use-presenter'
-import './Action.scss'
+import { FormEventHandler } from 'react';
+import { loadPresenter, useAction } from '../../../core/common/infrastructure/Locator';
+import { Action as ActionModel } from '../../../core/action/domain/Action';
+import { usePresenter } from '../../hooks/use-presenter';
+import './Action.scss';
 
 export function Action() {
-  const actionPresenter = Dependecy.use(useAction())
-  const actionState = usePresenter(actionPresenter)
+  const actionPresenter = loadPresenter(useAction());
+  const actionState = usePresenter(actionPresenter);
 
   const stopPropagation: FormEventHandler = (e) => {
-    e.stopPropagation()
-  }
+    e.stopPropagation();
+  };
 
   const updateAction = (a: ActionModel): FormEventHandler => {
     return (e) => {
       try {
-        const { value } = e.target as HTMLInputElement
-        actionPresenter.updateActionKeys(a.input, value)
+        const { value } = e.target as HTMLInputElement;
+        actionPresenter.updateActionKeys(a.input, value);
       } catch (e) {
         // TODO: Show notification.
-        console.error(e)
+        console.error(e);
       }
-    }
-  }
+    };
+  };
 
   const removeAction = (a: ActionModel) => {
     return () => {
-      actionPresenter.removeAction(a)
-    }
-  }
+      actionPresenter.removeAction(a);
+    };
+  };
 
   const empty = () => {
     return !actionState.actions.length && (
@@ -36,12 +36,12 @@ export function Action() {
         You need to start the logs before creating macros, don't know how,
         check the <a href="">tutorial</a>
       </p>
-    )
-  }
+    );
+  };
 
   const actions = () => {
     return actionState.actions.map(a => (
-      <tr key={a.timestamp} onClick={removeAction(a)}>
+      <tr key={a.id} onClick={removeAction(a)}>
         <td>{a.input}</td>
         <td>
           <input
@@ -52,8 +52,8 @@ export function Action() {
           />
         </td>
       </tr>
-    ))
-  }
+    ));
+  };
 
   return (
     <div className="action br-1">
@@ -70,5 +70,5 @@ export function Action() {
       </table>
       {empty()}
     </div>
-  )
+  );
 }

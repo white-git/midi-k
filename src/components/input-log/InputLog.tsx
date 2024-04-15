@@ -1,12 +1,12 @@
-import { NoteMessageEvent } from 'webmidi'
-import { Dependecy, useMidi, useAction } from '../../../core/shared/infrastructure/Dependecy'
-import { usePresenter } from '../../hooks/use-presenter'
-import './InputLog.scss'
+import { NoteMessageEvent } from 'webmidi';
+import { loadPresenter, useMidi, useAction } from '../../../core/common/infrastructure/Locator';
+import { usePresenter } from '../../hooks/use-presenter';
+import './InputLog.scss';
 
 export function InputLog() {
-  const midiPresenter = Dependecy.use(useMidi())
-  const actionPresenter = Dependecy.use(useAction())
-  const midiState = usePresenter(midiPresenter)
+  const midiPresenter = loadPresenter(useMidi());
+  const actionPresenter = loadPresenter(useAction());
+  const midiState = usePresenter(midiPresenter);
 
   const empty = () => {
     return !midiState.current.hasMessages() && (
@@ -14,14 +14,14 @@ export function InputLog() {
         Here will be displayed all the note on events sent by the midi device
         once the app it's started.
       </p>
-    )
-  }
+    );
+  };
 
   const createAction = (m: NoteMessageEvent) => {
     return () => {
-      actionPresenter.createAction(m)
-    }
-  }
+      actionPresenter.createAction(m);
+    };
+  };
 
   const logs = () => {
     return midiState.current.messages.map(m => (
@@ -31,8 +31,8 @@ export function InputLog() {
         <td>CH {m.message.channel}</td>
         <td>{m.type}</td>
       </tr>
-    ))
-  }
+    ));
+  };
 
   return (
     <div className="inputlog br-1">
@@ -52,5 +52,5 @@ export function InputLog() {
       </table>
       {empty()}
     </div>
-  )
+  );
 }

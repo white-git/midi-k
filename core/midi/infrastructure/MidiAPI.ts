@@ -1,43 +1,43 @@
-import { WebMidi, Input, NoteMessageEvent } from 'webmidi'
+import { WebMidi, Input, NoteMessageEvent } from 'webmidi';
 
 type MidiBufferInput = {
   [k: string]: Input
-}
+};
 
 export type MidiMessageCallback = {
   (r: NoteMessageEvent): void
-}
+};
 
 export class MidiAPI {
-  private inputs: MidiBufferInput = {}
+  private inputs: MidiBufferInput = {};
 
   public async getInputs() {
-    await WebMidi.enable()
+    await WebMidi.enable();
 
     WebMidi.inputs.forEach(i => {
-      this.inputs[i.id] = i
-    })
+      this.inputs[i.id] = i;
+    });
 
-    return WebMidi.inputs
+    return WebMidi.inputs;
   }
 
   public getInput(id: string) {
-    return this.inputs[id]
+    return this.inputs[id];
   }
 
   public subscribe(id: string, channel: number, fn: MidiMessageCallback) {
-    const input = WebMidi.getInputById(id)
+    const input = WebMidi.getInputById(id);
 
     if (channel > 0) {
-      const source = input.channels[channel]
-      source.addListener('noteon', fn)
+      const source = input.channels[channel];
+      source.addListener('noteon', fn);
     } else {
-      input.addListener('noteon', fn)
+      input.addListener('noteon', fn);
     }
   }
 
   public unsubscribe(id: string) {
-    const input = WebMidi.getInputById(id)
-    input.removeListener('noteon')
+    const input = WebMidi.getInputById(id);
+    if (input) input.removeListener('noteon');
   }
 }

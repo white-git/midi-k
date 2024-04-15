@@ -1,5 +1,5 @@
-import { MidiAPI, MidiMessageCallback } from './infrastructure/MidiAPI'
-import { Midi } from './domain/Midi'
+import { MidiAPI, MidiMessageCallback } from './infrastructure/MidiAPI';
+import { Midi } from './domain/Midi';
 
 export class MidiApplication {
   constructor(
@@ -7,19 +7,19 @@ export class MidiApplication {
   ) {}
 
   public getInputs() {
-    return this.midiApi.getInputs()
+    return this.midiApi.getInputs();
   }
 
   public createMidi(id: string, channel: number) {
-    const input = this.midiApi.getInput(id)
-    return Midi.create(input, channel)
+    const input = this.midiApi.getInput(id);
+    return Midi.create(input, channel);
   }
 
   public listenMessagesByInput(id: string, channel: number, fn: MidiMessageCallback) {
-    this.midiApi.subscribe(id, channel, fn)
+    this.midiApi.subscribe(id, channel, fn);
   }
 
   public stopListening(id: string) {
-    this.midiApi.unsubscribe(id)
+    this.midiApi.unsubscribe(id);
   }
 }

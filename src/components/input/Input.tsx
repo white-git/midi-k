@@ -1,63 +1,63 @@
-import { useEffect, FormEventHandler, useRef } from 'react'
-import { usePresenter } from '../../hooks/use-presenter'
-import { formdataToObject } from '../../helpers/formdata'
-import { Dependecy, useMidi } from '../../../core/shared/infrastructure/Dependecy'
-import { MidiObject } from '../../../core/midi/domain/Midi'
-import './Input.scss'
+import { useEffect, FormEventHandler, useRef } from 'react';
+import { usePresenter } from '../../hooks/use-presenter';
+import { formdataToObject } from '../../helpers/formdata';
+import { loadPresenter, useMidi } from '../../../core/common/infrastructure/Locator';
+import { MaybeMidi } from '../../../core/midi/domain/Midi';
+import './Input.scss';
 
 export function Input() {
-  const midiPresenter = Dependecy.use(useMidi())
-  const midiState = usePresenter(midiPresenter)
-  const $form = useRef<HTMLFormElement>(document.createElement('form'))
+  const midiPresenter = loadPresenter(useMidi());
+  const midiState = usePresenter(midiPresenter);
+  const $form = useRef<HTMLFormElement>(document.createElement('form'));
 
   const resetMidi = (clean?: boolean) => {
-    const id = midiState.current.device?.id
-    if (id) midiPresenter.stopListening(id, clean)
-  }
+    const id = midiState.current.device?.id;
+    if (id) midiPresenter.stopListening(id, clean);
+  };
 
   const formValues = () => {
-    const form = $form.current
-    const data = new FormData(form)
-    return formdataToObject<MidiObject>(data)
-  }
+    const form = $form.current;
+    const data = new FormData(form);
+    return formdataToObject<MaybeMidi>(data);
+  };
 
   const updateMidi: FormEventHandler = (e) => {
-    const { value } = e.target as HTMLSelectElement
-    resetMidi(value === '')
-    const data = formValues()
-    midiPresenter.createMidi(data)
-  }
+    const { value } = e.target as HTMLSelectElement;
+    resetMidi(value === '');
+    const data = formValues();
+    midiPresenter.createMidi(data);
+  };
 
   const clear = () => {
-    resetMidi()
-  }
+    resetMidi();
+  };
 
   const channels = () => {
-    return Array.from({ length: 16 }, (_, i) => i + 1)
-  }
+    return Array.from({ length: 16 }, (_, i) => i + 1);
+  };
 
   useEffect(() => {
-    midiPresenter.getInputs()
-  }, [])
+    midiPresenter.getInputs();
+  }, []);
 
   useEffect(() => {
     if (!midiState.current.exists()) {
-      const select = $form.current.querySelector('[name="device"]') as HTMLSelectElement
-      select.value = ''
+      const select = $form.current.querySelector('[name="device"]') as HTMLSelectElement;
+      select.value = '';
     }
-  }, [midiState.current.exists()])
+  }, [midiState.current.exists()]);
 
   const devices = () => {
     return midiState.inputs.map(i => (
       <option value={i.id} key={i.id}>{i.name}</option>
-    ))
-  }
+    ));
+  };
 
   const channelOptions = () => {
     return channels().map(c => (
       <option value={c} key={c}>Channel {c}</option>
-    ))
-  }
+    ));
+  };
 
   return (
     <div className="input mb-2">
@@ -91,5 +91,5 @@ export function Input() {
         </div>
       </form>
     </div>
-  )
+  );
 }
