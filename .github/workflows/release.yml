@@ -1,4 +1,4 @@
-name: buid/release Midi-K
+name: bulid/release Midi-K
 
 on:
   push:
@@ -39,16 +39,5 @@ jobs:
           files: |
             release/**/*-win.exe
             release/**/*-mac.dmg
-          # files: |
-          #   release/**/*.exe
-          #   release/**/*.zip
-          #   release/**/*.dmg
-          #   release/**/*.AppImage
-          #   release/**/*.snap
-          #   release/**/*.deb
-          #   release/**/*.rpm
-          #   release/**/*.tar.gz
-          #   release/**/*.yml
-          #   release/**/*.blockmap
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
