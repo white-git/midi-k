@@ -1,0 +1,25 @@
+.button {
+  display: inline-block;
+  outline: none;
+  border: none;
+  height: 40px;
+  padding: 0 12px;
+  font-size: 1.2em;
+  &_sm {
+    height: 36px;
+    font-size: 1em;
+  }
+  &_lg {
+    height: 44px;
+    font-size: 1.4em;
+  }
+  &:hover {
+    cursor: pointer;
+    color: map-get($colors, white);
+    background-color: darken(map-get($colors, blue), 30%);
+  }
+  &[disabled] {
+    cursor: default;
+    opacity: 0.4;
+  }
+}

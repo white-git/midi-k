@@ -1,16 +1,30 @@
 import { Input, Output } from 'webmidi';
-import { Midi } from '../domain/Midi';
+import { Midi, MaybeMidi } from '../domain/Midi';
 
-export type MidiState = {
-  inputs: Input[]
-  outputs: Output[]
-  current: Midi
-  listening: boolean
+type CommonMidiState = {
+  current: Midi;
 };
 
-export const midiInitialState: MidiState = {
+type LoadingMidiState = {
+  kind: 'LoadingMidiState'
+};
+
+type LoadedMidiState = {
+  kind: 'LoadedMidiState';
+  inputs: Input[];
+  outputs: Output[];
+};
+
+type ErrorMidiState = {
+  kind: 'ErrorMidiState';
+  error: Error;
+};
+
+export type MidiState = (LoadingMidiState | LoadedMidiState | ErrorMidiState) & CommonMidiState;
+
+export const midiInitialState = (): MidiState => ({
+  kind: 'LoadedMidiState',
   inputs: [],
   outputs: [],
-  current: Midi.empty(),
-  listening: false,
-};
+  current: new Midi(<MaybeMidi>{}),
+});

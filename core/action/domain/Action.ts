@@ -1,37 +1,25 @@
 import { NoteMessageEvent } from 'webmidi';
 import { Model } from '../../common/domain/Model';
+import { MidiEvent } from '../../midi/domain/Midi';
 
 export type ActionCall = {
-  (m: NoteMessageEvent): void
+  (n: NoteMessageEvent): void
 };
 
-export type ActionLoadCall = {
-  (a: Action[]): void
-};
-
-export type MaybeAction = {
-  input: string
-  keys: string[]
-  codes: number[]
-};
+export type MaybeAction = Action;
 
 export class Action extends Model {
-  public input: string;
+  public id: string;
   public keys: string[];
   public codes: number[];
   public timestamp: number;
 
-  constructor(input: string, keys: string[], codes: number[]) {
+  constructor(object: MaybeAction) {
     super();
-    this.input = input;
-    this.keys = keys;
-    this.codes = codes;
+    this.id = object.id;
+    this.keys = object.keys || [];
+    this.codes = object.codes || [];
     this.timestamp = Date.now();
-    this.id = this.id + '.' + this.timestamp;
-  }
-
-  public formatKeys() {
-    return this.keys.join('+');
   }
 
   public setKeys(keys: string[], codes: number[]) {
@@ -39,19 +27,19 @@ export class Action extends Model {
     this.codes = codes;
   }
 
-  public exists() {
-    return !!this.input;
+  public setId(message: MidiEvent) {
+    this.id = Action.createId(message);
   }
 
-  public static generateId(message: NoteMessageEvent) {
-    return `${message.note.identifier}-CH${message.message.channel}`;
+  public value() {
+    return this.keys.join('+');
   }
 
-  public static create(input: string, keys: string[], codes: number[]) {
-    return new this(input, keys, codes);
+  public valid() {
+    return this.id && this.keys.length && this.codes.length;
   }
 
-  public static empty() {
-    return new this('', [], []);
+  public static createId(message: MidiEvent) {
+    return `CH${message.message.channel}-${message.note.identifier}`;
   }
 }

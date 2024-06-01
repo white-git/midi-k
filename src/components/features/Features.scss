@@ -1,7 +1,17 @@
+@use '../../styles/utils' as *;
+
 .features {
   width: 100%;
+  height: $header-height;
   position: fixed;
+  background-color: map-get($colors, gray);
+  border-bottom: solid 1px darken(map-get($colors, gray), 10%);
   top: 0;
   left: 0;
   z-index: 1;
+  &-button {
+    width: 40px;
+    color: map-get($colors, black);
+    background-color: transparent;
+  }
 }

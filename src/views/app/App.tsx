@@ -1,28 +1,25 @@
-import { Input } from '../../components/input/Input';
-import { InputLog } from '../../components/input-log/InputLog';
-import { Action } from '../../components/action/Action';
+import { Actions } from '../../components/actions/Actions';
 import { Features } from '../../components/features/Features';
+import { Control } from '../../components/control/Control';
+import { Logs } from '../../components/logs/Logs';
+import { PlocProvider } from '../../hooks/ploc-context';
 import './App.scss';
 
 export function App() {
   return (
-    <div id="app">
-      <div className="app-container container g-2">
+    <PlocProvider>
+      <div id="app" className="container">
         <Features />
-        <div className="row">
-          <div className="col-5">
-            <div className="app-input">
-              <Input />
-              <Action />
-            </div>
+        <div className="row app-container">
+          <div className="col-4 app-left">
+            <Control />
+            <Actions />
           </div>
-          <div className="col-7">
-            <div className="app-inputlog">
-              <InputLog />
-            </div>
+          <div className="col-8 app-right">
+            <Logs />
           </div>
         </div>
       </div>
-    </div>
+    </PlocProvider>
   );
 }

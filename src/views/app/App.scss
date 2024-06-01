@@ -1,23 +1,26 @@
+@use '../../styles/utils' as *;
+
+html, body, #root, #app {
+  height: 100vh;
+}
 #app {
   font-family: Courier, monospace;
-  font-size: 14px;
+  font-size: $font-size;
+  color: map-get($colors, black);
+  background-color: map-get($colors, gray);
 }
 .app {
-  &-input, &-inputlog {
-    margin-top: var(--header-height);
-    height: calc(100vh - var(--gutter-4) - var(--header-height));
-    display: flex;
-    flex-direction: column;
+  &-container, &-left, &-right {
+    height: 100%;
+    padding-top: $header-height;
+  }
+  &-right {
+    background-color: darken(map-get($colors, gray), 5%);
+    border-left: solid 1px darken(map-get($colors, gray), 10%);
   }
 }
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-a {
-  color: var(--color-blue);
-  &:visited {
-    color: var(--color-orange);
-  }
 }

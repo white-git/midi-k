@@ -1,0 +1,57 @@
+@use '../../styles/utils' as *;
+
+.actions {
+  padding: $gutter-base * 2 $gutter-base 0;
+  &-list {
+    height: 20px;
+    background-color: darken(map-get($colors, gray), 5%);
+  }
+  &-empty {
+    color: lighten(map-get($colors, black), 20%);
+    text-align: center;
+  }
+  &-table {
+    background-color: darken(map-get($colors, gray), 5%);
+    max-height: calc(100vh - $header-height - 65px * 2 - $gutter-base * 8);
+    overflow-y: auto;
+    table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+    }
+    table, tr, th, td {
+      border: solid 1px darken(map-get($colors, gray), 10%);
+    }
+    tr {
+      line-height: 1.5;
+      height: 30px;
+    }
+    td {
+      height: 1px;
+      position: relative;
+    }
+    td:nth-child(1) {
+      padding: 0 $gutter-base;
+    }
+    td:last-child {
+      width: 30px;
+    }
+    .input {
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      input {
+        height: 100%;
+        background-color: transparent;
+      }
+    }
+    .button {
+      height: 30px;
+      width: 30px;
+      font-size: 0.9em;
+      padding: 0;
+      text-align: center;
+    }
+  }
+}

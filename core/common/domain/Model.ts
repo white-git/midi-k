@@ -1,5 +1,5 @@
 export class Model {
-  public id = Math.random().toString(36).slice();
+  public _id = Math.random().toString(36).slice();
 
   public toJson() {
     const cache: object[] = [];

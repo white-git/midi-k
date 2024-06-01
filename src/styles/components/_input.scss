@@ -1,0 +1,50 @@
+.input {
+  margin-bottom: $gutter-base * 2;
+  input, select, textarea {
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: 0;
+    padding: 0 $gutter-base;
+    box-shadow: 0 0 0 1px map-get($colors, black);
+    height: 24px;
+    &:hover,
+    &:focus {
+      box-shadow: 0 0 0 1px darken(map-get($colors, blue), 30%) !important;
+    }
+  }
+  select {
+    appearance: none;
+    position: relative;
+  }
+  label {
+    display: block;
+    font-size: 1em;
+    margin-bottom: $gutter-base;
+  }
+  &-select {
+    position: relative;
+    &:after {
+      content: '^';
+      display: block;
+      height: 20px;
+      line-height: 1.1;
+      transform: rotate(180deg);
+      font-size: 2.4em;
+      position: absolute;
+      top: 2px;
+      right: $gutter-base / 2;
+    }
+  }
+  &_reset {
+    margin-bottom: 0;
+    height: 100%;
+  }
+  &_reset input,
+  &_reset select {
+    box-shadow: none;
+  }
+  &_disabled {
+    opacity: 0.4;
+  }
+}

@@ -1,9 +1,13 @@
 import { Action } from '../domain/Action';
 
-export type ActionState = {
-  actions: Action[]
+type CommonActionState = {
+  actions: Action[];
+  delay: number;
 };
 
-export const actionInitialState: ActionState = {
-  actions: []
-};
+export type ActionState = CommonActionState;
+
+export const actionInitialState = (): ActionState => ({
+  actions: [],
+  delay: 100,
+});

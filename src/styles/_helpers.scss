@@ -1,0 +1,17 @@
+// Grid
+@for $i from 1 through $grid-cols {
+  .col-#{$i} {
+    width: calc($i * 100 / $grid-cols) + 0%;
+    padding: 0 $gutter-base;
+  }
+}
+
+// Flex
+@each $position in $flex-position {
+  .align-#{$position} {
+    align-items: $position;
+  }
+  .justify-#{$position} {
+    justify-content: $position;
+  }
+}

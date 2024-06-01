@@ -1,45 +1,53 @@
-import { NoteMessageEvent } from 'webmidi';
 import { ActionKeyConverter } from './infrastructure/ActionKeyConverter';
-import { ActionLoadCall } from './domain/Action';
-import { ActionIpc } from './infrastructure/ActionIpc';
-import { Action } from './domain/Action';
+import { Ipc, IpcLoadFile } from '../common/infrastructure/Ipc';
+import { Action, MaybeAction } from './domain/Action';
+import { MidiEvent } from '../midi/domain/Midi';
+
+type ActionLoadFile = {
+  (a: MaybeAction[]): void
+};
 
 export class ActionApplication {
   constructor(
     private actionKeyConverter: ActionKeyConverter,
-    private actionIpc: ActionIpc,
+    private ipc: Ipc,
   ) {}
 
-  public createAction(message: NoteMessageEvent, keys: string[]) {
-    const input = Action.generateId(message);
-    const codes = this.actionKeyConverter.convert(keys);
-    return Action.create(input, keys, codes);
+  public create(actions: Action[], event: MidiEvent) {
+    const aux = actions.slice();
+    const action = new Action(<MaybeAction>{});
+    action.setId(event);
+    if (!aux.some(a => a.id === action.id)) aux.unshift(action);
+    return aux;
   }
 
-  public updateAction(action: Action, keys: string[]) {
+  public setKeys(action: Action, value: string) {
+    const keys = value.split('+');
     const codes = this.actionKeyConverter.convert(keys);
     action.setKeys(keys, codes);
-    return action;
   }
 
-  public setDelay(delay: number) {
-    this.actionIpc.emitDelay(delay);
+  public remove(actions: Action[], action: Action) {
+    const aux = actions.slice();
+    const idx = actions.findIndex(a => a.id === action.id);
+    if (~idx) aux.splice(idx, 1);
+    return aux;
   }
 
-  public sendKey(action: Action) {
-    this.actionIpc.emitKeys(action.codes);
+  public emitKey(action: Action) {
+    this.ipc.emitKeys(action.codes);
   }
 
-  public saveActions(actions: Action[]) {
+  public save(actions: Action[]) {
     const content = JSON.stringify(actions);
     const element = document.createElement('a');
     const file = new Blob([content], { type: 'application/json' });
     element.href = URL.createObjectURL(file);
-    element.download = 'actions.json';
+    element.download = 'midi-k.actions.json';
     element.click();
   }
 
-  public loadActions(loadFile: ActionLoadCall) {
-    this.actionIpc.showDialog(loadFile);
+  public loadActions(loadFile: ActionLoadFile) {
+    this.ipc.showDialog(<IpcLoadFile>loadFile);
   }
 }

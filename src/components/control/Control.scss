@@ -1,0 +1,15 @@
+@use '../../styles/utils' as *;
+
+.control {
+  padding: $gutter-base * 2 $gutter-base;
+  position: relative;
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    border-bottom: solid 1px darken(map-get($colors, gray), 10%);
+    bottom: 0;
+    left: $gutter-base * -1;
+    right: $gutter-base * -1;
+  }
+}
