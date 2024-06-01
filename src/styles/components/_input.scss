@@ -33,7 +33,7 @@
       font-size: 2.4em;
       position: absolute;
       top: 2px;
-      right: $gutter-base / 2;
+      right: calc($gutter-base / 2);
     }
   }
   &_reset {

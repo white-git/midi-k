@@ -9,9 +9,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@nut-tree/nut-js": "^3.1.2",
-    "express": "^4.19.2"
-  }
+  "license": "ISC"
 }
