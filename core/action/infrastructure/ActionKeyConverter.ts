@@ -1,4 +1,4 @@
-import { Key } from '../../../libnut/nut-tree-js/nut-js/dist/lib/key.enum.d';
+import { Key } from '../../../libnut/nut-tree-js/nut-js/dist/lib/key.enum.ts';
 
 export class ActionKeyConverter {
   private mapping: Indexable = {

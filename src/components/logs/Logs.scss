@@ -1,0 +1,58 @@
+@use '../../styles/utils' as *;
+
+.logs {
+  padding: $gutter-base * 2 $gutter-base;
+  &-empty {
+    color: lighten(map-get($colors, black), 30%);
+    text-align: center;
+    line-height: 1.5;
+    max-width: 400px;
+    margin: auto;
+  }
+  &-actions {
+    margin-bottom: $gutter-base * 2;
+  }
+  &-button {
+    background-color: map-get($colors, gray);
+  }
+  &-table {
+    background-color: map-get($colors, white);
+    max-height: calc(100vh - $header-height - 40px - $gutter-base * 6);
+    overflow-y: auto;
+    table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: collapse;
+    }
+    table, tr, th, td {
+      border: solid 1px darken(map-get($colors, gray), 10%);
+    }
+    tr {
+      line-height: 1.5;
+      height: 30px;
+    }
+    th, td {
+      padding: 0 $gutter-base;
+    }
+    thead tr {
+      background-color: map-get($colors, white);
+      position: sticky;
+      top: 0;
+    }
+    thead th {
+      text-align: left;
+      font-weight: normal;
+    }
+    tbody tr:nth-child(odd) {
+      background: darken(map-get($colors, gray), 0%);
+    }
+    tbody tr:hover {
+      cursor: pointer;
+      color: map-get($colors, white);
+      background-color: darken(map-get($colors, blue), 30%);
+      &, td {
+        border: none;
+      }
+    }
+  }
+}
