@@ -1,9 +1,9 @@
 import { usePlocState } from '../../../../hooks/use-ploc-state';
 import { InputText } from '../../../inputs/text/Text';
-import { plocContext } from '../../../../hooks/ploc-context';
+import { usePloc } from '../../../../hooks/ploc-context';
 
 export function Delay() {
-  const { midiPloc } = plocContext();
+  const { midiPloc } = usePloc();
   const state = usePlocState(midiPloc);
   const isListening = state.current.listening;
 

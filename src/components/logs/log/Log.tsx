@@ -1,12 +1,12 @@
 import { MidiEvent } from '../../../../core/midi/domain/Midi';
-import { plocContext } from '../../../hooks/ploc-context';
+import { usePloc } from '../../../hooks/ploc-context';
 
 type LogProps = {
   event: MidiEvent;
 };
 
 export function Log({ event }: LogProps) {
-  const { actionPloc } = plocContext();
+  const { actionPloc } = usePloc();
 
   const create = () => {
     actionPloc.create(event);

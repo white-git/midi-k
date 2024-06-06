@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
 import { usePlocState } from '../../../../hooks/use-ploc-state';
-import { plocContext } from '../../../../hooks/ploc-context';
+import { usePloc } from '../../../../hooks/ploc-context';
 
 export function Play() {
-  const { actionPloc, midiPloc } = plocContext();
+  const { actionPloc, midiPloc } = usePloc();
   const state = usePlocState(midiPloc);
   const isLoading = state.kind === 'LoadingMidiState';
   const isEnabled = state.current.valid();

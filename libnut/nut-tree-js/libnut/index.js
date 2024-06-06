@@ -1,11 +1,11 @@
 const libnut = (() => {
 	switch (process.platform) {
 		case 'win32':
-			return require(`@nut-tree/libnut-win32`);
+			return require(`../libnut-win32`);
 		case 'linux':
-			return require(`@nut-tree/libnut-linux`);
+			return require(`../libnut-linux`);
 		case 'darwin':
-			return require(`@nut-tree/libnut-darwin`);
+			return require(`../libnut-darwin`);
 	}
 })();
 

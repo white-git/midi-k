@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const libnut = require("@nut-tree/libnut");
+const libnut = require("../../../../../libnut");
 const key_enum_1 = require("../../key.enum");
 class KeyboardAction {
     constructor() { }

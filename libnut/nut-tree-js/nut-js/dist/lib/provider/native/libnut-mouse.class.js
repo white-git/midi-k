@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const libnut = require("@nut-tree/libnut");
+const libnut = require("../../../../../libnut");
 const button_enum_1 = require("../../button.enum");
 const point_class_1 = require("../../point.class");
 class MouseAction {

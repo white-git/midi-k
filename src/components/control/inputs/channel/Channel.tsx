@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { usePlocState } from '../../../../hooks/use-ploc-state';
 import { channels } from '../../../../../core/midi/domain/Midi';
 import { InputSelect } from '../../../inputs/select/Select';
-import { plocContext } from '../../../../hooks/ploc-context';
+import { usePloc } from '../../../../hooks/ploc-context';
 
 export function Channel() {
-  const { midiPloc } = plocContext();
+  const { midiPloc } = usePloc();
   const state = usePlocState(midiPloc);
   const options = channels.map(c => ({ text: c, value: c }));
   const isListening = state.current.listening;

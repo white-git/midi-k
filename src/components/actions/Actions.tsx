@@ -1,10 +1,10 @@
 import { Action } from './action/Action';
-import { plocContext } from '../../hooks/ploc-context';
+import { usePloc } from '../../hooks/ploc-context';
 import { usePlocState } from '../../hooks/use-ploc-state';
 import './Actions.scss';
 
 export function Actions() {
-  const { actionPloc } = plocContext();
+  const { actionPloc } = usePloc();
   const state = usePlocState(actionPloc);
   const isEmpty = !state.actions.length;
 

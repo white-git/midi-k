@@ -1,31 +1,9 @@
-import { useContext, createContext, ReactNode } from 'react';
-import { ActionPloc } from '../../core/action/infrastructure/ActionPloc';
-import { MidiPloc } from '../../core/midi/infrastructure/MidiPloc';
+import { useContext, createContext } from 'react';
+import * as providers from '../../core/common/infrastructure/Provider';
 
-type PlocContext = {
-  midiPloc: MidiPloc;
-  actionPloc: ActionPloc;
-};
-
-type PlocProviderProps = {
-  children: ReactNode;
-};
-
-function providers() {
-  return {
-    midiPloc: MidiPloc.use(),
-    actionPloc: ActionPloc.use(),
-  };
+function createPlocContext() {
+  const context = createContext<typeof providers>({} as typeof providers);
+  return [context, () => useContext(context)] as const;
 }
 
-const PlocContext = createContext<PlocContext>({} as PlocContext);
-const createUseContext = () => () => useContext(PlocContext);
-export const plocContext = createUseContext();
-
-export function PlocProvider({ children }: PlocProviderProps) {
-  return (
-    <PlocContext.Provider value={providers()}>
-      {children}
-    </PlocContext.Provider>
-  );
-}
+export const [PlocContext, usePloc] = createPlocContext();

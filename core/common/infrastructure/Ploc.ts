@@ -17,8 +17,8 @@ export class Ploc<S> {
     this.listeners.push(listener);
   }
 
-  public changeState(state: Partial<S>) {
-    this.internalState = { ...this.state, ...state };
+  public changeState(state: S) {
+    this.internalState = state;
     this.listeners.forEach(listener => listener(this.state));
   }
 }

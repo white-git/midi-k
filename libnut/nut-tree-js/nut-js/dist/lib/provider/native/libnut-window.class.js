@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const libnut = require("@nut-tree/libnut");
+const libnut = require("../../../../../libnut");
 const region_class_1 = require("../../region.class");
 class WindowAction {
     getWindows() {

@@ -1,6 +1,5 @@
 import { MidiAPI, MidiMessageCallback } from './infrastructure/MidiAPI';
 import { Ipc } from '../common/infrastructure/Ipc';
-// import { Midi, MaybeMidi } from './domain/Midi';
 
 export class MidiApplication {
   constructor(
@@ -27,17 +26,4 @@ export class MidiApplication {
   public stop(id: string) {
     this.midiApi.unsubscribe(id);
   }
-
-  // public createMidi(id: string, channel: number) {
-  //   const input = this.midiApi.getInput(id);
-  //   return new Midi(input, channel);
-  // }
-
-  // public listenMessagesByInput(id: string, channel: number, fn: MidiMessageCallback) {
-  //   this.midiApi.subscribe(id, channel, fn);
-  // }
-
-  // public stopListening(id: string) {
-  //   this.midiApi.unsubscribe(id);
-  // }
 }

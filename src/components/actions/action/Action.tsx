@@ -2,14 +2,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { InputText } from '../../inputs/text/Text';
 import { Action as ActionModel } from '../../../../core/action/domain/Action';
-import { plocContext } from '../../../hooks/ploc-context';
+import { usePloc } from '../../../hooks/ploc-context';
 
 type ActionProps = {
   action: ActionModel;
 };
 
 export function Action({ action }: ActionProps) {
-  const { actionPloc } = plocContext();
+  const { actionPloc } = usePloc();
 
   const remove = () => {
     actionPloc.remove(action);

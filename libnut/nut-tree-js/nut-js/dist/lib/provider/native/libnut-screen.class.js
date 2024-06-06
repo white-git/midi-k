@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const libnut = require("@nut-tree/libnut");
+const libnut = require("../../../../../libnut");
 const image_class_1 = require("../../image.class");
 const region_class_1 = require("../../region.class");
 const colormode_enum_1 = require("../../colormode.enum");

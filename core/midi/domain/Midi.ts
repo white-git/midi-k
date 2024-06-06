@@ -56,6 +56,12 @@ export class Midi extends Model {
     this.listening = listening;
   }
 
+  public reset() {
+    this.device = null;
+    this.messages = [];
+    this.listening = false;
+  }
+
   public addEvent(n: NoteMessageEvent) {
     this.messages.unshift(new MidiEvent(n));
     if (this.messages.length >= 100) this.messages.splice(100);

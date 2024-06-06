@@ -9,8 +9,8 @@ type LoadingMidiState = {
   kind: 'LoadingMidiState'
 };
 
-type LoadedMidiState = {
-  kind: 'LoadedMidiState';
+type UpdatedMidiState = {
+  kind: 'UpdatedMidiState';
   inputs: Input[];
   outputs: Output[];
 };
@@ -20,10 +20,10 @@ type ErrorMidiState = {
   error: Error;
 };
 
-export type MidiState = (LoadingMidiState | LoadedMidiState | ErrorMidiState) & CommonMidiState;
+export type MidiState = (LoadingMidiState | UpdatedMidiState | ErrorMidiState) & CommonMidiState;
 
 export const midiInitialState = (): MidiState => ({
-  kind: 'LoadedMidiState',
+  kind: 'UpdatedMidiState',
   inputs: [],
   outputs: [],
   current: new Midi(<MaybeMidi>{}),

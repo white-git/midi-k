@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotate } from '@fortawesome/free-solid-svg-icons';
 import { usePlocState } from '../../../../hooks/use-ploc-state';
-import { plocContext } from '../../../../hooks/ploc-context';
+import { usePloc } from '../../../../hooks/ploc-context';
 
 export function Fetch() {
-  const { midiPloc } = plocContext();
+  const { midiPloc } = usePloc();
   const state = usePlocState(midiPloc);
   const isLoading = state.kind === 'LoadingMidiState';
 

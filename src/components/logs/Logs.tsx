@@ -1,14 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { usePlocState } from '../../hooks/use-ploc-state';
-import { plocContext } from '../../hooks/ploc-context';
+import { usePloc } from '../../hooks/ploc-context';
 import { Log } from './log/Log';
 import './Logs.scss';
 
-// TODO
-// Display logs and create new actions when a new log is generated.
 export function Logs() {
-  const { midiPloc } = plocContext();
+  const { midiPloc } = usePloc();
   const state = usePlocState(midiPloc);
   const isEmpty = !state.current.messages.length || !state.current.valid();
 

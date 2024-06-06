@@ -1,5 +1,4 @@
 import { IpcRenderer, IpcRendererEvent } from 'electron';
-// import { ActionLoadCall } from '../domain/Action';
 import * as Channels from '../../constants/Channels';
 
 export type IpcLoadFile = {

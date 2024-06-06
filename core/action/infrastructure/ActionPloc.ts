@@ -29,7 +29,7 @@ export class ActionPloc extends Ploc<ActionState> {
 
   public setKeys(action: Action, value: string) {
     this.application.setKeys(action, value);
-    this.changeState({});
+    this.changeState({ ...this.state });
   }
 
   public remove(action: Action) {
@@ -48,16 +48,10 @@ export class ActionPloc extends Ploc<ActionState> {
     });
   }
 
-  public static instance: ActionPloc;
-
   public static use() {
-    if (!this.instance) {
-      const actionKeyConverter = new ActionKeyConverter();
-      const actionIpc = new Ipc();
-      const application = new ActionApplication(actionKeyConverter, actionIpc);
-      this.instance = new this(application);
-    }
-
-    return this.instance;
+    const actionKeyConverter = new ActionKeyConverter();
+    const actionIpc = new Ipc();
+    const application = new ActionApplication(actionKeyConverter, actionIpc);
+    return new this(application);
   }
 }

@@ -1,11 +1,9 @@
-import { NoteMessageEvent } from 'webmidi';
+import { NoteMessageEvent, Input } from 'webmidi';
 import { MidiAPI } from './MidiAPI';
 import { Ploc } from '../../common/infrastructure/Ploc';
 import { Ipc } from '../../common/infrastructure/Ipc';
 import { ActionCall } from '../../action/domain/Action';
-import { MaybeMidi } from '../domain/Midi';
 import { MidiState, midiInitialState } from './MidiState';
-import { Midi } from '../domain/Midi';
 import { MidiApplication } from '../MidiApplication';
 
 export class MidiPloc extends Ploc<MidiState> {
@@ -15,16 +13,17 @@ export class MidiPloc extends Ploc<MidiState> {
 
   public async getInputs() {
     try {
-      this.changeState({ kind: 'LoadingMidiState' });
-      const inputs = await this.application.getInputs();
       this.changeState({
-        kind: 'LoadedMidiState',
-        inputs,
+        ...this.state,
+        kind: 'LoadingMidiState',
       });
+      const inputs = await this.application.getInputs();
+      this.changeState(this.update(inputs));
     } catch (e) {
       this.changeState({
         kind: 'ErrorMidiState',
         error: e as Error,
+        current: this.state.current,
       });
     }
   }
@@ -32,35 +31,34 @@ export class MidiPloc extends Ploc<MidiState> {
   public setDevice(id: string) {
     const device = this.application.getDevice(id);
     this.state.current.setDevice(device);
-    this.changeState({});
+    this.changeState({ ...this.state });
   }
 
   public setChannel(channel: number) {
     this.state.current.setChannel(channel);
-    this.changeState({});
+    this.changeState({ ...this.state });
   }
 
   public clearDevice() {
-    const current = new Midi(<MaybeMidi>{});
-    current.channel = this.state.current.channel;
-    this.changeState({ current });
+    this.state.current.reset();
+    this.changeState({ ...this.state });
   }
 
   public clearMessages() {
     this.state.current.clearMessages();
-    this.changeState({});
+    this.changeState({ ...this.state });
   }
 
   public setDelay(delay: number) {
     this.state.current.setDelay(delay);
     this.application.setDelay(delay);
-    this.changeState({});
+    this.changeState({ ...this.state });
   }
 
   public play(calls: { (): ActionCall[] }) {
     const midi = this.state.current;
     this.state.current.setListening(true);
-    this.changeState({});
+    this.changeState({ ...this.state });
 
     if (midi.valid()) {
       this.application.play(
@@ -68,7 +66,7 @@ export class MidiPloc extends Ploc<MidiState> {
         midi.channel,
         (n: NoteMessageEvent) => {
           midi.addEvent(n);
-          this.changeState({});
+          this.changeState({ ...this.state });
           calls().forEach(call => call(n));
         },
       );
@@ -79,19 +77,25 @@ export class MidiPloc extends Ploc<MidiState> {
     const midi = this.state.current;
     this.state.current.setListening(false);
     this.application.stop(<string>midi.device?.id);
-    this.changeState({});
+    this.changeState({ ...this.state });
   }
 
-  public static instance: MidiPloc;
+  public update(inputs: Input[]): MidiState {
+    const midi = this.state.current;
+    this.application.stop(<string>midi.device?.id);
+    this.state.current.reset();
+    return {
+      kind: 'UpdatedMidiState',
+      outputs: [],
+      current: this.state.current,
+      inputs,
+    };
+  }
 
   public static use() {
-    if (!this.instance) {
-      const midiApi = new MidiAPI();
-      const ipc = new Ipc();
-      const application = new MidiApplication(midiApi, ipc);
-      this.instance = new this(application);
-    }
-
-    return this.instance;
+    const midiApi = new MidiAPI();
+    const ipc = new Ipc();
+    const application = new MidiApplication(midiApi, ipc);
+    return new this(application);
   }
 }

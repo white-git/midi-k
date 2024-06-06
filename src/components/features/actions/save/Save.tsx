@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { usePlocState } from '../../../../hooks/use-ploc-state';
-import { plocContext } from '../../../../hooks/ploc-context';
+import { usePloc } from '../../../../hooks/ploc-context';
 
 export function Save() {
-  const { actionPloc } = plocContext();
+  const { actionPloc } = usePloc();
   const state = usePlocState(actionPloc);
   const isDisabled = !state.actions.length;
 
