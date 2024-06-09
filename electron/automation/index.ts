@@ -10,7 +10,6 @@ export class Robot {
 
   constructor() {
     this.loadPlatform();
-    this.afterLoadPlatform();
   }
 
   private async loadPlatform() {
@@ -27,6 +26,8 @@ export class Robot {
         throw new Error('Unknown platform');
       }
     }
+
+    this.afterLoadPlatform();
   }
 
   private afterLoadPlatform() {
