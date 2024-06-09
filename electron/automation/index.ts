@@ -2,6 +2,7 @@ import { spawnSync } from 'child_process';
 
 type Platform = {
   send: { (k: string): string[] }
+  load: { (): void }
 };
 
 export class Robot {
@@ -9,9 +10,10 @@ export class Robot {
 
   constructor() {
     this.loadPlatform();
+    this.afterLoadPlatform();
   }
 
-  async loadPlatform() {
+  private async loadPlatform() {
     switch (process.platform) {
       case 'darwin': {
         this.platform = await import('./darwin');
@@ -27,7 +29,11 @@ export class Robot {
     }
   }
 
-  cmd(args: string[]) {
+  private afterLoadPlatform() {
+    this.platform.load();
+  }
+
+  private cmd(args: string[]) {
     const app = args.slice().shift();
     const params = args.slice(1);
 
@@ -38,7 +44,7 @@ export class Robot {
     }
   }
 
-  send(key: string) {
+  public send(key: string) {
     try {
       this.cmd(this.platform.send(key));
     } catch (e) {
@@ -46,7 +52,7 @@ export class Robot {
     }
   }
 
-  static start() {
+  public static start() {
     return new this();
   }
 }

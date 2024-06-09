@@ -50,11 +50,15 @@ const spkeys: SPKeys = {
   'clear': 'key code 71'
 };
 
+export function load() {}
+
 export function send(key: string) {
   const k = key.toLowerCase();
   let action = `keystroke "${k}"`;
   if (spkeys[k]) action = spkeys[k];
-  const cmd = ['osascript', '-e'];
-  cmd.push(`tell application "System Events" to ${action}`);
-  return cmd;
+  return [
+    'osascript',
+    '-e',
+    `tell application "System Events" to ${action}`
+  ];
 }
