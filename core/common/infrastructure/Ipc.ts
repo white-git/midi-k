@@ -16,8 +16,8 @@ export class Ipc {
     this.ipc.send(Channels.SET_DELAY, delay);
   }
 
-  public emitKeys(codes: number[]) {
-    this.ipc.send(Channels.SEND_KEY, codes);
+  public emitKeys(keys: string[]) {
+    this.ipc.send(Channels.SEND_KEY, keys);
   }
 
   public showDialog(loadfile: IpcLoadFile) {

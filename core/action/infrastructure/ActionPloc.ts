@@ -3,7 +3,6 @@ import { Ploc } from '../../common/infrastructure/Ploc';
 import { ActionApplication } from '../ActionApplication';
 import { ActionState, actionInitialState } from './ActionState';
 import { Action, MaybeAction } from '../domain/Action';
-import { ActionKeyConverter } from './ActionKeyConverter';
 import { Ipc } from '../../common/infrastructure/Ipc';
 import { MidiEvent } from '../../midi/domain/Midi';
 
@@ -49,9 +48,8 @@ export class ActionPloc extends Ploc<ActionState> {
   }
 
   public static use() {
-    const actionKeyConverter = new ActionKeyConverter();
     const actionIpc = new Ipc();
-    const application = new ActionApplication(actionKeyConverter, actionIpc);
+    const application = new ActionApplication(actionIpc);
     return new this(application);
   }
 }

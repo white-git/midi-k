@@ -6,6 +6,7 @@
     "dev": "vite",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
+    "rebuild": "npm rebuild --runtime=electron --target=20.9.0 --disturl=https://atom.io/download/atom-shell --abi=107",
     "build:win": "tsc && vite build && electron-builder --win --publish never",
     "build:mac": "tsc && vite build && electron-builder --mac --publish never",
     "build:linux": "tsc && vite build && electron-builder --linux --publish never"
@@ -15,7 +16,6 @@
     "@fortawesome/free-regular-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "automation": "file:libnut",
     "keycode": "^2.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -31,6 +31,7 @@
     "clipboardy": "^4.0.0",
     "electron": "^29.1.4",
     "electron-builder": "^24.13.3",
+    "electron-rebuild": "^3.2.9",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",

@@ -1,6 +1,7 @@
 import { app, BrowserWindow, dialog, ipcMain } from 'electron';
 import path from 'node:path';
 import fs from 'node:fs';
+import { startRobot } from './robot';
 import * as Channels from '../core/constants/Channels';
 
 // The built directory structure
@@ -18,18 +19,8 @@ process.env.VITE_PUBLIC = app.isPackaged ? process.env.DIST : path.join(process.
 let win: BrowserWindow | null;
 // 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
 const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL'];
-// eslint-disable-next-line
-const Automation = require('automation')
-const automation = new Automation();
-automation.setDelay(100);
 
-ipcMain.on(Channels.SEND_KEY, (_, value: number[]) => {
-  automation.sendKey(value);
-});
-
-ipcMain.on(Channels.SET_DELAY, (_, value: number) => {
-  automation.setDelay(value);
-});
+startRobot(ipcMain);
 
 ipcMain.handle(Channels.SHOW_DIALOG, () => {
   const file = dialog.showOpenDialogSync({ properties: ['openFile'] });

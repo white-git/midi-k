@@ -1,4 +1,3 @@
-import { ActionKeyConverter } from './infrastructure/ActionKeyConverter';
 import { Ipc, IpcLoadFile } from '../common/infrastructure/Ipc';
 import { Action, MaybeAction } from './domain/Action';
 import { MidiEvent } from '../midi/domain/Midi';
@@ -9,7 +8,6 @@ type ActionLoadFile = {
 
 export class ActionApplication {
   constructor(
-    private actionKeyConverter: ActionKeyConverter,
     private ipc: Ipc,
   ) {}
 
@@ -23,8 +21,7 @@ export class ActionApplication {
 
   public setKeys(action: Action, value: string) {
     const keys = value.split('+');
-    const codes = this.actionKeyConverter.convert(keys);
-    action.setKeys(keys, codes);
+    action.setKeys(keys);
   }
 
   public remove(actions: Action[], action: Action) {
@@ -35,7 +32,7 @@ export class ActionApplication {
   }
 
   public emitKey(action: Action) {
-    this.ipc.emitKeys(action.codes);
+    this.ipc.emitKeys(action.keys);
   }
 
   public save(actions: Action[]) {

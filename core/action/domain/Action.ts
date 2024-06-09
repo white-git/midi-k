@@ -22,9 +22,8 @@ export class Action extends Model {
     this.timestamp = Date.now();
   }
 
-  public setKeys(keys: string[], codes: number[]) {
+  public setKeys(keys: string[]) {
     this.keys = keys;
-    this.codes = codes;
   }
 
   public setId(message: MidiEvent) {
@@ -36,7 +35,7 @@ export class Action extends Model {
   }
 
   public valid() {
-    return this.id && this.keys.length && this.codes.length;
+    return this.id && this.keys.length;
   }
 
   public static createId(message: MidiEvent) {
