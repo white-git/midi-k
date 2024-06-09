@@ -5,13 +5,13 @@ type Platform = {
 };
 
 export class Robot {
-  public platform?: Platform;
+  public platform!: Platform;
 
   constructor() {
-    this.setPlatform();
+    this.loadPlatform();
   }
 
-  async setPlatform() {
+  async loadPlatform() {
     switch (process.platform) {
       case 'darwin': {
         this.platform = await import('./darwin');
@@ -40,8 +40,7 @@ export class Robot {
 
   send(key: string) {
     try {
-      const command = this.platform?.send(key);
-      if (command) this.cmd(command);
+      this.cmd(this.platform.send(key));
     } catch (e) {
       console.log(e?.toString());
     }
