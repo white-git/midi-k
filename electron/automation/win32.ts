@@ -14,8 +14,8 @@ export function send(key: string) {
     'powershell',
     '-command',
     `
-    $wshell = New-Object -ComObject wscript.shell;
-    $wshell.SendKeys("${key}");
+    $wsh = New-Object -ComObject wscript.shell;
+    $wsh.SendKeys({${key}});
     `
   ];
 }
