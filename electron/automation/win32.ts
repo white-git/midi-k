@@ -1,12 +1,5 @@
 export function load() {
-  return [
-    'powershell',
-    '-command',
-    `
-    $wsh = New-Object -ComObject wscript.shell;
-    if(-not [console]::NumberLock) $wsh.SendKeys("{NUMLOCK}")
-    `
-  ];
+  return [];
 }
 
 export function send(key: string) {
@@ -14,8 +7,8 @@ export function send(key: string) {
     'powershell',
     '-command',
     `
-    $wsh = New-Object -ComObject wscript.shell;
-    $wsh.SendKeys({${key}});
+    Add-Type -AssemblyName System.Windows.Forms;
+    [System.Windows.Forms.SendKeys]::SendWait('${key}');
     `
   ];
 }

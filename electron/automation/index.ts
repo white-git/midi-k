@@ -26,12 +26,6 @@ export class Robot {
         throw new Error('Unknown platform');
       }
     }
-
-    this.afterLoadPlatform();
-  }
-
-  private afterLoadPlatform() {
-    this.platform.load();
   }
 
   private cmd(args: string[]) {

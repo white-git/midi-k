@@ -50,7 +50,9 @@ const spkeys: SPKeys = {
   'clear': 'key code 71'
 };
 
-export function load() {}
+export function load() {
+  return [];
+}
 
 export function send(key: string) {
   const k = key.toLowerCase();
