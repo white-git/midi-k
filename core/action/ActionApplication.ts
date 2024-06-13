@@ -1,6 +1,7 @@
 import { Ipc, IpcLoadFile } from '../common/infrastructure/Ipc';
 import { Action, MaybeAction } from './domain/Action';
 import { MidiEvent } from '../midi/domain/Midi';
+import { ActionKeyConverter } from './infrastructure/ActionKeyConverter';
 
 type ActionLoadFile = {
   (a: MaybeAction[]): void
@@ -9,6 +10,7 @@ type ActionLoadFile = {
 export class ActionApplication {
   constructor(
     private ipc: Ipc,
+    private keyConverter: ActionKeyConverter,
   ) {}
 
   public create(actions: Action[], event: MidiEvent) {
@@ -32,7 +34,7 @@ export class ActionApplication {
   }
 
   public emitKey(action: Action) {
-    this.ipc.emitKeys(action.keys);
+    this.ipc.emitKeys(this.keyConverter.convert(action.keys));
   }
 
   public save(actions: Action[]) {

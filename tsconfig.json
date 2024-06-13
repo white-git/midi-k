@@ -21,6 +21,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src", "electron"],
-  "exclude": ["libnut"],
+  "exclude": ["nutjs"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

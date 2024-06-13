@@ -5,6 +5,7 @@ import { ActionState, actionInitialState } from './ActionState';
 import { Action, MaybeAction } from '../domain/Action';
 import { Ipc } from '../../common/infrastructure/Ipc';
 import { MidiEvent } from '../../midi/domain/Midi';
+import { ActionKeyConverter } from './ActionKeyConverter';
 
 export class ActionPloc extends Ploc<ActionState> {
   constructor(private readonly application: ActionApplication) {
@@ -49,7 +50,8 @@ export class ActionPloc extends Ploc<ActionState> {
 
   public static use() {
     const actionIpc = new Ipc();
-    const application = new ActionApplication(actionIpc);
+    const keyConverter = new ActionKeyConverter();
+    const application = new ActionApplication(actionIpc, keyConverter);
     return new this(application);
   }
 }

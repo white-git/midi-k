@@ -1,0 +1,15 @@
+{
+  "extends": "@nut-tree/configs/tsconfig/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "typeRoots": ["node_modules/@types"]
+  },
+  "include": [
+    "lib/**/*.ts",
+    "index.ts"
+  ],
+  "exclude": [
+    "**/*.spec.ts",
+    "node_modules"
+  ]
+}
