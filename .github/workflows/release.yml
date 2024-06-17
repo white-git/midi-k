@@ -22,6 +22,33 @@ jobs:
         with:
           node-version: 21
 
+      - name: Install rimraf & typescript
+        run: npm i rimraf typescript -g
+
+      - name: Build libnut-core
+        working-directory: nutjs/libnut-core
+        run: npm i && npm run build:release
+
+      - name: Compile @nut-tree/shared
+        working-directory: nutjs/shared
+        run: npm i && npm run compile
+
+      - name: Compile @nut-tree/provider-interfaces
+        working-directory: nutjs/provider-interfaces
+        run: npm i && npm run compile
+
+      - name: Compile @nut-tree/clipboardy
+        working-directory: nutjs/clipboardy
+        run: npm i && npm run compile
+
+      - name: Compile @nut-tree/libnut
+        working-directory: nutjs/libnut
+        run: npm i && npm run compile
+
+      - name: Compile @nut-tree/nut.js
+        working-directory: nutjs/nut.js
+        run: npm i && npm run compile
+
       - name: Install Dependencies
         run: npm install
 

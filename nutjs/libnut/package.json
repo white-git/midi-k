@@ -42,9 +42,9 @@
     "node": ">=10.15.3"
   },
   "dependencies": {
-    "@nut-tree/libnut-darwin": "file://../libnut-core/build/Release/libnut.node",
-    "@nut-tree/libnut-linux": "file://../libnut-core/build/Release/libnut.node",
-    "@nut-tree/libnut-win32": "file://../libnut-core/build/Release/libnut.node"
+    "@nut-tree/libnut-darwin": "file://../libnut-core",
+    "@nut-tree/libnut-linux": "file://../libnut-core",
+    "@nut-tree/libnut-win32": "file://../libnut-core"
   },
   "devDependencies": {
     "@nut-tree/configs": "file://../configs",

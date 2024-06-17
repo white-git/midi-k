@@ -2,7 +2,7 @@
   "name": "libnut",
   "version": "2.7.1",
   "description": "libnut is an N-API module for desktop automation with node",
-  "main": "index.js",
+  "main": "build/Release/libnut.node",
   "typings": "index.d.ts",
   "scripts": {
     "clean": "cmake-js clean",

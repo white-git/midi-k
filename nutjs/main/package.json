@@ -1,7 +1,0 @@
-{
-  "name": "nutjs",
-  "main": "index.js",
-  "dependencies": {
-    "nutjs": "file://../nut.js"
-  }
-}
